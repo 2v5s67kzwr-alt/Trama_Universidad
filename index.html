@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trayectoria y Autonomía Neuroinclusiva - Trama Diversa</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@400;600;700&family=Mukta:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        violetaTropical: '#C6AFE4', // Color Primario
+                        uva: '#6720A4',              // Contraste Principal (Texto/Bordes)
+                        espuma: '#98D8C3',            // Color Secundario (Acentos)
+                        laurel: '#B2C9A4',            // Contraste Secundario
+                        uvaOscuro: '#2c074d',         // Ultra-oscuro para texto sobre fondos claros
+                        espumaOscura: '#0a4231'       // Contraste para textos sobre verde pastel
+                    },
+                    fontFamily: {
+                        owner: ['Owner', 'Syne', 'sans-serif'],
+                        eixample: ['Eixample Villa', 'Blinker', 'sans-serif'],
+                        mukta: ['Mukta', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --color-violeta: #C6AFE4;
+            --color-uva: #6720A4;
+            --color-espuma: #98D8C3;
+            --color-laurel: #B2C9A4;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            font-family: 'Mukta', sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* 16:9 Presentation Canvas Framework with perfect centering & scaling */
+        .presentation-viewport {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slides-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            transform-origin: center center;
+            transition: transform 0.2s ease-out;
+        }
+
+        /* Slide boundaries & background styling according to brand directives */
+        .slide-frame {
+            width: 1280px;
+            height: 720px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -15px rgba(103, 32, 164, 0.15);
+            overflow: hidden;
+            display: none; /* Controlled via JS index */
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 50px 70px;
+            box-sizing: border-box;
+            border: 2px solid rgba(198, 175, 228, 0.25);
+        }
+
+        /* Active Transition Effect */
+        .slide-frame.active {
+            display: flex;
+            animation: slideFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px) scale(0.995);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Soft Watermark (Isotipo) background representation for Trama Diversa */
+        .slide-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 95% 10%, rgba(152, 216, 195, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 5% 95%, rgba(198, 175, 228, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(251, 249, 253, 0.95) 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Slide Title with exact branding border and hierarchy */
+        .slide-title-bar {
+            border-left: 6px solid var(--color-espuma);
+            padding-left: 20px;
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+
+        .font-owner-bold {
+            font-family: 'Owner', 'Syne', sans-serif;
+            font-weight: 800;
+        }
+
+        .font-eixample-regular {
+            font-family: 'Eixample Villa', 'Blinker', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Seamless smooth bars layout animation style */
+        .progress-bar-fill {
+            transition: width 1.2s cubic-bezier(0.1, 0.8, 0.25, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="presentation-viewport">
+        
+        <div class="slides-container" id="slidesContainer">
+
+            <!-- ==================== DIAPOSITIVA 1: PORTADA ==================== -->
+            <div class="slide-frame active" id="slide-1">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <!-- Top header badge -->
+                    <div class="flex justify-between items-center">
+                        <span class="inline-flex items-center gap-2 bg-violetaTropical/20 text-uva border border-violetaTropical/40 px-4 py-1.5 rounded-full font-eixample-regular text-xs uppercase tracking-widest">
+                            <i class="fa-solid fa-layer-group"></i> TRAMA DIVERSA
+                        </span>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Presentación Universidad</span>
+                    </div>
+
+                    <!-- Main Cover Text elements -->
+                    <div class="my-auto max-w-4xl">
+                        <h1 class="text-6xl font-owner-bold text-uva leading-tight mb-4">
+                            Trayectoria y Autonomía<br>Neuroinclusiva
+                        </h1>
+                        <div class="w-24 h-2 bg-espuma rounded mb-6"></div>
+                        <p class="text-xl text-slate-700 max-w-3xl font-mukta leading-relaxed">
+                            Diseñamos programas de acompañamiento personalizados para familias, docentes y comunidades, promoviendo entornos inclusivos para personas neurodivergentes.
+                        </p>
+                    </div>
+
+                    <!-- Footer detail containing Brand Guidelines Contact parameters -->
+                    <div class="flex justify-between items-end border-t border-slate-100 pt-6">
+                        <div class="flex gap-8">
+                            <div>
+                                <span class="block text-[10px] text-slate-400 font-bold uppercase tracking-widest">Contacto Directo</span>
+                                <span class="text-sm font-semibold text-uvaOscuro">Geraldine Gibson Carrasco</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] text-slate-400 font-bold uppercase tracking-widest">Teléfono</span>
+                                <span class="text-sm font-semibold text-slate-600">+508 7765 4310</span>
+                            </div>
+                        </div>
+                        <div class="bg-espuma/20 hover:bg-espuma/30 text-espumaOscura border border-espuma/50 rounded-xl px-5 py-2.5 flex items-center gap-2 shadow-sm transition-all duration-300">
+                            <i class="fa-regular fa-calendar-check text-sm"></i>
+                            <span class="text-xs font-eixample-regular uppercase tracking-wider font-bold">Agenda gratis aquí</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 2: DESCRIPCIÓN DEL PROGRAMA ==================== -->
+            <div class="slide-frame" id="slide-2">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Descripción del Programa</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Iniciativa especializada de acompañamiento</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 my-auto">
+                        <!-- Adaptation Phase block -->
+                        <div class="bg-white/90 backdrop-blur-sm border border-violetaTropical/40 rounded-2xl p-7 shadow-sm flex flex-col justify-between hover:border-violetaTropical transition-all">
+                            <div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="bg-violetaTropical/30 text-uva p-3 rounded-xl">
+                                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                                    </span>
+                                    <h3 class="text-2xl font-eixample-regular text-uva">1. Fase de Adaptación</h3>
+                                </div>
+                                <p class="text-slate-700 text-sm mb-4 font-mukta leading-relaxed">
+                                    Diseñada específicamente para estudiantes de primer año, facilitando un ingreso óptimo y regulado a la educación superior:
+                                </p>
+                                <ul class="space-y-3 text-slate-600 text-sm font-mukta">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-uva font-bold mt-0.5">•</span>
+                                        <span>Fortalecimiento integral de la autonomía académica individual.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-uva font-bold mt-0.5">•</span>
+                                        <span>Desarrollo de estrategias eficaces para la gestión del tiempo y agendas.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-uva font-bold mt-0.5">•</span>
+                                        <span>Andamiaje de funciones ejecutivas ante demandas académicas complejas.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Transition Phase block -->
+                        <div class="bg-white/90 backdrop-blur-sm border border-espuma/40 rounded-2xl p-7 shadow-sm flex flex-col justify-between hover:border-espuma transition-all">
+                            <div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="bg-espuma/20 text-espumaOscura p-3 rounded-xl">
+                                        <i class="fa-solid fa-briefcase text-2xl"></i>
+                                    </span>
+                                    <h3 class="text-2xl font-eixample-regular text-uva">2. Fase de Transición</h3>
+                                </div>
+                                <p class="text-slate-700 text-sm mb-4 font-mukta leading-relaxed">
+                                    Orientada a estudiantes por egresar, preparándoles de manera estratégica para su inserción al entorno laboral real:
+                                </p>
+                                <ul class="space-y-3 text-slate-600 text-sm font-mukta">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-espumaOscura font-bold mt-0.5">•</span>
+                                        <span>Consolidación del autoconcepto e identidad profesional robusta.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-espumaOscura font-bold mt-0.5">•</span>
+                                        <span>Entrenamiento sistemático en comunicación asertiva funcional.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-espumaOscura font-bold mt-0.5">•</span>
+                                        <span>Soporte y andamiaje especializado in situ durante el periodo de práctica.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-slate-400">
+                        <span>Trama Diversa © 2026</span>
+                        <span>Enfoque Multidimensional de la Neurodiversidad</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 3: PROBLEMATIZACIÓN ==================== -->
+            <div class="slide-frame" id="slide-3">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">La Problematización Académica</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Bases diagnósticas y de justificación del programa</p>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                        <div class="col-span-7 space-y-4">
+                            <div class="bg-white/85 p-5 rounded-xl border-l-4 border-uva shadow-sm">
+                                <p class="text-slate-800 text-sm leading-relaxed font-mukta">
+                                    La transición a la educación superior constituye una <strong>crisis evolutiva y ocupacional</strong> que exige adaptar de forma drástica hábitos y rutinas ante la pérdida de la estructura escolar clásica.
+                                </p>
+                            </div>
+                            <div class="bg-white/85 p-5 rounded-xl border-l-4 border-espuma shadow-sm">
+                                <p class="text-slate-800 text-sm leading-relaxed font-mukta">
+                                    El <strong>desempeño académico</strong> en esta etapa depende de la autorregulación y del despliegue estructurado de funciones ejecutivas (planificación y flexibilidad cognitiva) para gestionar la ambigüedad del entorno.
+                                </p>
+                            </div>
+                            <div class="bg-white/85 p-5 rounded-xl border-l-4 border-laurel shadow-sm">
+                                <p class="text-slate-800 text-sm leading-relaxed font-mukta">
+                                    El fortalecimiento socioemocional y la resolución estructurada de problemas actúan como <strong>factores protectores esenciales</strong>, regulando la ansiedad y consolidando la autoeficacia para prevenir la deserción temprana.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-span-5 flex flex-col gap-4">
+                            <div class="bg-uva/5 p-5 rounded-2xl border border-uva/10 text-center">
+                                <i class="fa-solid fa-triangle-exclamation text-uva text-3xl mb-2"></i>
+                                <h4 class="text-base font-eixample-regular text-uvaOscuro mb-1">Riesgos Críticos</h4>
+                                <p class="text-xs text-slate-600 leading-relaxed font-mukta">Desorientación temporal, sobrecarga sensorial, bloqueos ejecutivos por estrés evaluativo y deserción.</p>
+                            </div>
+                            <div class="bg-espuma/10 p-5 rounded-2xl border border-espuma/30 text-center">
+                                <i class="fa-solid fa-shield-halved text-espumaOscura text-3xl mb-2"></i>
+                                <h4 class="text-base font-eixample-regular text-espumaOscura mb-1">Andamiaje de Contención</h4>
+                                <p class="text-xs text-slate-600 leading-relaxed font-mukta">Mediación intencional de la conducta, soportes externos organizacionales y co-regulación activa.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-slate-400">
+                        <span>Bases Metodológicas - Trama Diversa</span>
+                        <span>Inclusión Universitaria Real</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 4: ENFOQUE EPISTEMOLÓGICO ==================== -->
+            <div class="slide-frame" id="slide-4">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Fundamentos y Enfoque Técnico</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Bases epistemológicas de nuestra intervención</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 my-auto">
+                        <!-- Feuerstein card -->
+                        <div class="bg-white/80 border border-violetaTropical/30 rounded-2xl p-7 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="bg-violetaTropical/20 text-uva p-3 rounded-xl">
+                                        <i class="fa-solid fa-brain text-xl"></i>
+                                    </span>
+                                    <h3 class="text-xl font-eixample-regular text-uva">Modificabilidad Cognitiva Estructural</h3>
+                                </div>
+                                <p class="text-slate-700 text-xs mb-3 font-mukta leading-relaxed">
+                                    Basado en la teoría del Dr. Reuven Feuerstein y el principio de la <strong>Experiencia de Aprendizaje Mediado (EAM)</strong>:
+                                </p>
+                                <ul class="space-y-2 text-slate-600 text-xs font-mukta">
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-uva mt-0.5"></i>
+                                        <span><strong>Mediación activa:</strong> El tutor se interpone intencionalmente entre el estímulo y la respuesta del alumno.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-uva mt-0.5"></i>
+                                        <span><strong>Reestructuración del autoconcepto:</strong> Modificamos la percepción limitante que el alumno tiene de sí mismo.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-uva mt-0.5"></i>
+                                        <span><strong>Traspaso cognitivo:</strong> Transformamos el potencial de aprendizaje en desempeño autónomo.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Zimmerman & DUA card -->
+                        <div class="bg-white/80 border border-espuma/30 rounded-2xl p-7 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="bg-espuma/20 text-espumaOscura p-3 rounded-xl">
+                                        <i class="fa-solid fa-arrows-spin text-xl"></i>
+                                    </span>
+                                    <h3 class="text-xl font-eixample-regular text-uva">Autorregulación y Enfoque DUA</h3>
+                                </div>
+                                <p class="text-slate-700 text-xs mb-3 font-mukta leading-relaxed">
+                                    Fundamentado en el Modelo Sociocognitivo de Barry Zimmerman y en el Diseño Universal para el Aprendizaje:
+                                </p>
+                                <ul class="space-y-2 text-slate-600 text-xs font-mukta">
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa-solid fa-circle-notch text-espumaOscura mt-0.5"></i>
+                                        <span><strong>Ciclo de Autorregulación:</strong> Ejercitamos de manera sistemática previsión, ejecución y autorreflexión.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa-solid fa-circle-notch text-espumaOscura mt-0.5"></i>
+                                        <span><strong>Inclusión DUA:</strong> Eliminación proactiva de barreras físicas, sensoriales y afectivas.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa-solid fa-circle-notch text-espumaOscura mt-0.5"></i>
+                                        <span><strong>Mitigación de la ansiedad:</strong> Herramientas efectivas de comunicación y control emocional.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400">Marco de Trabajo: Feuerstein, Zimmerman & CAST DUA</div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 5: OBJETIVOS ==================== -->
+            <div class="slide-frame" id="slide-5">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Objetivos del Programa</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Metas estratégicas de retención e inserción efectiva</p>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                        <div class="col-span-4 bg-gradient-to-br from-uva to-uvaOscuro text-white rounded-2xl p-7 text-center shadow-md">
+                            <div class="text-4xl font-owner-bold text-espuma mb-2">100%</div>
+                            <div class="text-sm font-eixample-regular uppercase tracking-wider mb-4 text-violetaTropical">Enfoque Inclusivo</div>
+                            <p class="text-xs text-slate-200 leading-relaxed font-mukta">
+                                Garantizar la continuidad, permanencia y una efectiva inserción universitaria inicial y de práctica laboral de estudiantes neurodivergentes.
+                            </p>
+                        </div>
+
+                        <div class="col-span-8 space-y-4">
+                            <!-- Goal 1 -->
+                            <div class="bg-white/80 p-5 rounded-xl border border-violetaTropical/20 shadow-sm">
+                                <span class="bg-violetaTropical text-uva text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-widest font-eixample-regular">Primer Año (Adaptación)</span>
+                                <ul class="list-disc pl-5 mt-2.5 text-xs text-slate-700 space-y-1.5 font-mukta">
+                                    <li><strong>Potenciar</strong> las funciones cognitivas en las fases de entrada, elaboración y salida de la información mediante mediación interactiva.</li>
+                                    <li>Instaurar de manera sistemática el ciclo de autorregulación académica en las rutinas de estudio diarias.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Goal 2 -->
+                            <div class="bg-white/80 p-5 rounded-xl border border-espuma/20 shadow-sm">
+                                <span class="bg-espuma text-espumaOscura text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-widest font-eixample-regular">Por Egresar (Proyecta tu Talento)</span>
+                                <ul class="list-disc pl-5 mt-2.5 text-xs text-slate-700 space-y-1.5 font-mukta">
+                                    <li>Desarrollar habilidades de comunicación funcional y autorregulación, vinculando estratégicamente talentos con su perfil profesional.</li>
+                                    <li>Brindar asesoría técnica a docentes supervisores sobre ajustes, adecuaciones y apoyos metodológicos in situ para su desempeño.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400">Alineado a las Políticas de Inclusión y Estándares de Acreditación</div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 6: MÓDULOS PRIMER AÑO ==================== -->
+            <div class="slide-frame" id="slide-6">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Módulos: Primer Año (Adaptación)</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Estructura cognitiva y planificación semanal</p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6 my-auto">
+                        <!-- Module 1 -->
+                        <div class="bg-white/80 border border-violetaTropical/20 rounded-xl p-5 shadow-sm">
+                            <span class="text-xs font-bold text-uva bg-violetaTropical/20 px-2 py-0.5 rounded">MÓDULO 1_A</span>
+                            <h4 class="font-eixample-regular text-lg text-uvaOscuro mt-2 mb-1 leading-tight">Entrada Cognitiva</h4>
+                            <p class="text-[11px] text-slate-400 uppercase tracking-wider mb-2 font-eixample-regular">Planificación de la Conducta</p>
+                            <p class="text-xs text-slate-600 font-mukta leading-relaxed">
+                                Recolección de datos, exploración sistemática, atención sostenida y Protocolo de Intenciones. Análisis y segmentación de programas académicos complejos.
+                            </p>
+                        </div>
+
+                        <!-- Module 2 -->
+                        <div class="bg-white/80 border border-espuma/20 rounded-xl p-5 shadow-sm">
+                            <span class="text-xs font-bold text-espumaOscura bg-espuma/20 px-2 py-0.5 rounded">MÓDULO 2_A</span>
+                            <h4 class="font-eixample-regular text-lg text-uvaOscuro mt-2 mb-1 leading-tight">Elaboración y Ejecución</h4>
+                            <p class="text-[11px] text-slate-400 uppercase tracking-wider mb-2 font-eixample-regular">Pensamiento Estratégico</p>
+                            <p class="text-xs text-slate-600 font-mukta leading-relaxed">
+                                Relaciones virtuales, pensamiento analítico, categorización conceptual y modelado cognitivo directo. Talleres de resolución sobre guías reales.
+                            </p>
+                        </div>
+
+                        <!-- Module 3 -->
+                        <div class="bg-white/80 border border-laurel/20 rounded-xl p-5 shadow-sm">
+                            <span class="text-xs font-bold text-slate-700 bg-laurel/20 px-2 py-0.5 rounded">MÓDULO 3_A</span>
+                            <h4 class="font-eixample-regular text-lg text-uvaOscuro mt-2 mb-1 leading-tight">Salida y Autorreflexión</h4>
+                            <p class="text-[11px] text-slate-400 uppercase tracking-wider mb-2 font-eixample-regular">Cierre del Ciclo</p>
+                            <p class="text-xs text-slate-600 font-mukta leading-relaxed">
+                                Comunicación explícita, control de la ansiedad de evaluación y atribución causal correcta. Simulacros y bitácora de autorreflexión activa.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400">Público Objetivo: Alumnos de Primer Año, Propedéutico y Nivelación</div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 7: MÓDULOS EGRESO ==================== -->
+            <div class="slide-frame" id="slide-7">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Módulos: Egreso y Transición</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Proyecta tu Talento: Preparación Estratégica y Andamiaje Profesional</p>
+                    </div>
+
+                    <div class="grid grid-cols-5 gap-4 my-auto">
+                        <!-- B1 -->
+                        <div class="bg-white/80 border border-violetaTropical/20 rounded-xl p-4 shadow-xs">
+                            <span class="text-[9px] font-bold text-uva bg-violetaTropical/15 px-1.5 py-0.5 rounded uppercase font-eixample-regular">Módulo 1_B</span>
+                            <h4 class="font-eixample-regular text-sm text-uvaOscuro mt-1.5 mb-1">Identidad Profesional</h4>
+                            <p class="text-[11px] text-slate-600 font-mukta leading-relaxed">Construcción de autoimagen nutricia y narrativas auténticas sin libretos rígidos.</p>
+                        </div>
+                        <!-- B2 -->
+                        <div class="bg-white/80 border border-espuma/20 rounded-xl p-4 shadow-xs">
+                            <span class="text-[9px] font-bold text-espumaOscura bg-espuma/15 px-1.5 py-0.5 rounded uppercase font-eixample-regular">Módulo 2_B</span>
+                            <h4 class="font-eixample-regular text-sm text-uvaOscuro mt-1.5 mb-1">Transición Crítica</h4>
+                            <p class="text-[11px] text-slate-600 font-mukta leading-relaxed">Mitigación de brechas aula-laboral. Manejo de rutinas y agendas visuales.</p>
+                        </div>
+                        <!-- B3 -->
+                        <div class="bg-white/80 border border-laurel/20 rounded-xl p-4 shadow-xs">
+                            <span class="text-[9px] font-bold text-slate-700 bg-laurel/15 px-1.5 py-0.5 rounded uppercase font-eixample-regular">Módulo 3_B</span>
+                            <h4 class="font-eixample-regular text-sm text-uvaOscuro mt-1.5 mb-1">Comunicación</h4>
+                            <p class="text-[11px] text-slate-600 font-mukta leading-relaxed">Comunicación asertiva, lectura social, decodificación y mapas mentales.</p>
+                        </div>
+                        <!-- B4 -->
+                        <div class="bg-white/80 border border-violetaTropical/20 rounded-xl p-4 shadow-xs">
+                            <span class="text-[9px] font-bold text-uva bg-violetaTropical/15 px-1.5 py-0.5 rounded uppercase font-eixample-regular">Módulo 4_B</span>
+                            <h4 class="font-eixample-regular text-sm text-uvaOscuro mt-1.5 mb-1">Andamiaje In Situ</h4>
+                            <p class="text-[11px] text-slate-600 font-mukta leading-relaxed">Visitas presenciales en terreno y ajustes en tiempo real durante la práctica.</p>
+                        </div>
+                        <!-- B5 -->
+                        <div class="bg-white/80 border border-espuma/20 rounded-xl p-4 shadow-xs">
+                            <span class="text-[9px] font-bold text-espumaOscura bg-espuma/15 px-1.5 py-0.5 rounded uppercase font-eixample-regular">Módulo 5_B</span>
+                            <h4 class="font-eixample-regular text-sm text-uvaOscuro mt-1.5 mb-1">Evitación de Burnout</h4>
+                            <p class="text-[11px] text-slate-600 font-mukta leading-relaxed">Gestión de sobrecarga sensorial, masking y corregulación con jefaturas.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400">Público Objetivo: Estudiantes de Último Año y Egresados en Práctica</div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 8: METODOLOGÍA ==================== -->
+            <div class="slide-frame" id="slide-8">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Metodología Trama Diversa</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Enfoque constructivo y de mediación cognitiva</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 my-auto">
+                        <!-- Primer Año Met -->
+                        <div class="bg-white/85 p-6 rounded-xl border border-violetaTropical/30">
+                            <h4 class="font-eixample-regular text-lg text-uva mb-3"><i class="fa-solid fa-graduation-cap"></i> Metodología de Primer Año</h4>
+                            <ul class="space-y-3 text-xs text-slate-700 font-mukta">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-violetaTropical/30 text-uva rounded-full px-1.5 py-0.5 font-bold text-[9px]">1</span>
+                                    <span><strong>Diagnóstico Participativo:</strong> Evaluación cualitativa inicial del perfil de entrada y niveles de autorregulación.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-violetaTropical/30 text-uva rounded-full px-1.5 py-0.5 font-bold text-[9px]">2</span>
+                                    <span><strong>Participación Activa:</strong> Clases estructuradas como laboratorios de pensamiento vivenciales.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-violetaTropical/30 text-uva rounded-full px-1.5 py-0.5 font-bold text-[9px]">3</span>
+                                    <span><strong>Plan de Acción Mental:</strong> Ejecución de las fases del acto mental bajo mediación intencional.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Egreso Met -->
+                        <div class="bg-white/85 p-6 rounded-xl border border-espuma/40">
+                            <h4 class="font-eixample-regular text-lg text-uva mb-3"><i class="fa-solid fa-briefcase"></i> Metodología de Transición</h4>
+                            <ul class="space-y-3 text-xs text-slate-700 font-mukta">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-espuma/30 text-espumaOscura rounded-full px-1.5 py-0.5 font-bold text-[9px]">1</span>
+                                    <span><strong>Evaluación Ocupacional:</strong> Levantamiento inicial para identificar estilos cognitivos y barreras.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-espuma/30 text-espumaOscura rounded-full px-1.5 py-0.5 font-bold text-[9px]">2</span>
+                                    <span><strong>Diseño Colaborativo:</strong> Ajustes razonables realizados en estrecha colaboración con tutores de práctica.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-espuma/30 text-espumaOscura rounded-full px-1.5 py-0.5 font-bold text-[9px]">3</span>
+                                    <span><strong>Acompañamiento In Situ:</strong> Monitoreo técnico directo y corrección de estrategias en tiempo real.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400">Duración: Modular flexible (8 a 16 semanas de acompañamiento activo)</div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 9: ENTREGABLES Y FORMATOS ==================== -->
+            <div class="slide-frame" id="slide-9">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Formatos y Entregables</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Soportes tangibles para el estudiante y la institución</p>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-8 my-auto">
+                        <!-- Formatos -->
+                        <div class="col-span-4 bg-slate-50/80 p-5 rounded-xl border border-slate-200">
+                            <h4 class="font-eixample-regular text-base text-uva mb-3">Formatos de Ejecución</h4>
+                            <div class="space-y-3 text-xs text-slate-600 font-mukta">
+                                <div>
+                                    <span class="font-bold block text-slate-700">Primer Año:</span>
+                                    <span>8 sesiones grupales presenciales (16 horas cronológicas) + opción de mentoría individual.</span>
+                                </div>
+                                <div>
+                                    <span class="font-bold block text-slate-700">Egreso:</span>
+                                    <span>Formato mixto (3 talleres grupales presenciales de 2 horas + 2 visitas técnicas presenciales in situ).</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Entregables -->
+                        <div class="col-span-8 space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <!-- Estudiante -->
+                                <div class="bg-white/80 p-4 rounded-xl border border-violetaTropical/25">
+                                    <h5 class="font-eixample-regular text-sm text-uva flex items-center gap-2 mb-2">
+                                        <i class="fa-solid fa-user-graduate"></i> Para el Estudiante
+                                    </h5>
+                                    <ul class="text-xs text-slate-600 space-y-1 font-mukta">
+                                        <li>• Bitácora Digital de Autorregulación.</li>
+                                        <li>• Caja de Herramientas de Funciones Ejecutivas.</li>
+                                        <li>• Bitácora de Transición Profesional.</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Universidad -->
+                                <div class="bg-white/80 p-4 rounded-xl border border-espuma/30">
+                                    <h5 class="font-eixample-regular text-sm text-uva flex items-center gap-2 mb-2">
+                                        <i class="fa-solid fa-school"></i> Para la Universidad
+                                    </h5>
+                                    <ul class="text-xs text-slate-600 space-y-1 font-mukta">
+                                        <li>• Reporte técnico de progresión pre/post.</li>
+                                        <li>• Matriz de alertas tempranas detectadas.</li>
+                                        <li>• Informe de Monitoreo In Situ de Práctica.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400">Enfoque de Transferencia Directa hacia Asignaturas Críticas y Entornos Laborales</div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 10: RESULTADOS ESPERADOS ==================== -->
+            <div class="slide-frame" id="slide-10">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Resultados Proyectados</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Impacto institucional, bienestar y permanencia</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 my-auto">
+                        <div class="bg-white/80 p-5 rounded-xl border border-violetaTropical/30 space-y-3">
+                            <h4 class="font-eixample-regular text-base text-uva"><i class="fa-solid fa-chart-line"></i> Impacto Institucional Sostenible</h4>
+                            <div class="space-y-2 text-xs text-slate-600 font-mukta">
+                                <p><strong>• Mitigación de Deserción:</strong> Incremento en las tasas de permanencia en el primer año crítico.</p>
+                                <p><strong>• Alineación de Políticas:</strong> Coherencia con estándares de acreditación nacional e inclusión.</p>
+                                <p><strong>• Titulación Efectiva:</strong> Incremento en el egreso regular de estudiantes neurodivergentes.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/80 p-5 rounded-xl border border-espuma/40 space-y-3">
+                            <h4 class="font-eixample-regular text-base text-uva"><i class="fa-solid fa-heart-pulse"></i> Bienestar y Convivencia</h4>
+                            <div class="space-y-2 text-xs text-slate-600 font-mukta">
+                                <p><strong>• Reducción de la Ansiedad:</strong> Autocontrol emocional frente a evaluaciones y entrevistas.</p>
+                                <p><strong>• Clima Social Nutritivo:</strong> Fortalecimiento del autoconcepto positivo ("Soy Capaz").</p>
+                                <p><strong>• Comunicación Funcional:</strong> Disminución de conflictos en centros de práctica y aulas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400">Trama Diversa - Puentes hacia la Autonomía y la Neuroinclusión</div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 11: GRÁFICO EDITABLE ==================== -->
+            <div class="slide-frame" id="slide-11">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Métricas de Impacto Proyectado</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Resultados medibles y progreso institucional del programa</p>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                        <!-- Editable CSS-Based Bar Graph Column -->
+                        <div class="col-span-7 bg-white/95 border border-violetaTropical/40 rounded-2xl p-6 shadow-sm space-y-4">
+                            
+                            <!-- Bar 1 -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-bold text-uvaOscuro font-eixample-regular">
+                                    <span>Tasa de Permanencia Estudiantil</span>
+                                    <span class="text-uva">+85%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden">
+                                    <div class="progress-bar-fill h-full bg-gradient-to-r from-uva to-espuma rounded-full flex items-center justify-end pr-3" style="width: 85%;">
+                                        <span class="text-[9px] text-white font-bold">85%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bar 2 -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-bold text-uvaOscuro font-eixample-regular">
+                                    <span>Disminución de Ansiedad en Evaluaciones</span>
+                                    <span class="text-uva">-40%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden">
+                                    <div class="progress-bar-fill h-full bg-gradient-to-r from-uva to-espuma rounded-full flex items-center justify-end pr-3" style="width: 70%;">
+                                        <span class="text-[9px] text-white font-bold">70%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bar 3 -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-bold text-uvaOscuro font-eixample-regular">
+                                    <span>Efectividad en Centros de Práctica</span>
+                                    <span class="text-uva">92%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden">
+                                    <div class="progress-bar-fill h-full bg-gradient-to-r from-uva to-espuma rounded-full flex items-center justify-end pr-3" style="width: 92%;">
+                                        <span class="text-[9px] text-white font-bold">92%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bar 4 -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-bold text-uvaOscuro font-eixample-regular">
+                                    <span>Satisfacción Docente con Apoyo In Situ</span>
+                                    <span class="text-uva">90%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden">
+                                    <div class="progress-bar-fill h-full bg-gradient-to-r from-uva to-espuma rounded-full flex items-center justify-end pr-3" style="width: 90%;">
+                                        <span class="text-[9px] text-white font-bold">90%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Data description text -->
+                        <div class="col-span-5 space-y-3">
+                            <h4 class="font-eixample-regular text-lg text-uva flex items-center gap-2">
+                                <i class="fa-solid fa-chart-bar text-espuma text-xl"></i>
+                                Monitoreo Cualitativo
+                            </h4>
+                            <p class="text-xs text-slate-600 leading-relaxed font-mukta">
+                                Establecemos indicadores cuantitativos y cualitativos para monitorear el progreso individual y el retorno de la inversión para la institución:
+                            </p>
+                            <div class="space-y-2 text-xs text-slate-600 font-mukta">
+                                <p><strong>• Mitigación de Deserción:</strong> Elevando la permanencia en hitos críticos.</p>
+                                <p><strong>• Autonomía Práctica:</strong> Ajustes razonables aplicados en terreno.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400">Para modificar estos porcentajes, simplemente cambie el valor de "width: XX%" en el código HTML.</div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 12: PRESUPUESTO ==================== -->
+            <div class="slide-frame" id="slide-12">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between">
+                    <div class="slide-title-bar">
+                        <h2 class="text-4xl font-owner-bold text-uva">Propuesta de Inversión</h2>
+                        <p class="text-sm text-slate-500 font-eixample-regular">Presupuesto transparente y opciones de andamiaje adicionales</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 my-auto">
+                        <!-- Primer año budget -->
+                        <div class="bg-white/80 p-5 rounded-xl border border-violetaTropical/30">
+                            <span class="text-[10px] font-bold text-uva bg-violetaTropical/20 px-2.5 py-1 rounded-full uppercase tracking-wider font-eixample-regular">Piloto Primer Año</span>
+                            <div class="mt-3 mb-2">
+                                <span class="text-2xl font-owner-bold text-uva">$2.280.000.-</span>
+                                <span class="text-xs text-slate-500 ml-1">/ 60 UF base</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mb-3 font-mukta">8 sesiones para 1 sección de hasta 20 estudiantes.</p>
+                            <ul class="text-xs text-slate-600 space-y-1.5 font-mukta">
+                                <li>• Diagnóstico inicial de cohorte.</li>
+                                <li>• Relatoría por profesional certificado MCE.</li>
+                                <li>• Bitácora digital e informe de impacto.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Egreso budget -->
+                        <div class="bg-white/80 p-5 rounded-xl border border-espuma/40">
+                            <span class="text-[10px] font-bold text-espumaOscura bg-espuma/20 px-2.5 py-1 rounded-full uppercase tracking-wider font-eixample-regular">Piloto Egreso & Práctica</span>
+                            <div class="mt-3 mb-2">
+                                <span class="text-2xl font-owner-bold text-uva">$1.710.000.-</span>
+                                <span class="text-xs text-slate-500 ml-1">/ 45 UF base</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mb-3 font-mukta">Taller preparatorio + Monitoreo In Situ ($152.000 / 4 UF por alumno).</p>
+                            <ul class="text-xs text-slate-600 space-y-1.5 font-mukta">
+                                <li>• Módulos grupales de narrativa y comunicación.</li>
+                                <li>• Visitas técnicas presenciales a centros laborales.</li>
+                                <li>• Reporte individual y bitácora de egreso.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Extra options footer -->
+                    <div class="bg-slate-50/80 p-3 rounded-lg border border-slate-200 text-xs text-slate-600 flex justify-between font-mukta">
+                        <span><strong>Opciones extra:</strong> Mentoría individual de co-regulación ($57.000 CLP / 1,5 UF)</span>
+                        <span><strong>Taller para Docentes:</strong> Transferencia de estrategias (4 horas: $760.000 CLP / 20 UF)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== DIAPOSITIVA 13: CIERRE ==================== -->
+            <div class="slide-frame" id="slide-13">
+                <div class="slide-background"></div>
+                <div class="relative z-10 h-full flex flex-col justify-between items-center text-center">
+                    <span class="inline-block bg-espuma text-espumaOscura px-4 py-1.5 rounded-full font-eixample-regular text-xs uppercase tracking-widest shadow-sm">
+                        TRAMA DIVERSA
+                    </span>
+
+                    <div class="max-w-3xl my-auto">
+                        <h2 class="text-5xl font-owner-bold text-uva leading-tight mb-4">
+                            Construyendo Entornos Inclusivos
+                        </h2>
+                        <p class="text-base text-slate-600 font-mukta leading-relaxed mb-6">
+                            Potenciar la permanencia y el desarrollo integral de los estudiantes de primer año desde sus funciones cognitivas, aplicando estrategias clave de autorregulación para el aprendizaje. Diseñemos juntos una transición universitaria fluida y adaptada a los desafíos de su institución.
+                        </p>
+
+                        <!-- Contact Grid based on guidelines -->
+                        <div class="flex justify-center gap-6 mb-6">
+                            <div class="bg-white border border-violetaTropical/30 rounded-xl px-5 py-3 flex items-center gap-3 shadow-xs">
+                                <i class="fa-solid fa-user-tie text-uva"></i>
+                                <span class="text-xs font-semibold text-slate-700">Geraldine Gibson Carrasco</span>
+                            </div>
+                            <div class="bg-white border border-violetaTropical/30 rounded-xl px-5 py-3 flex items-center gap-3 shadow-xs">
+                                <i class="fa-solid fa-envelope text-uva"></i>
+                                <span class="text-xs font-semibold text-slate-700">info@tramadiversa.cl</span>
+                            </div>
+                            <div class="bg-white border border-violetaTropical/30 rounded-xl px-5 py-3 flex items-center gap-3 shadow-xs">
+                                <i class="fa-solid fa-phone text-uva"></i>
+                                <span class="text-xs font-semibold text-slate-700">+508 7765 4310</span>
+                            </div>
+                        </div>
+
+                        <div class="inline-flex items-center gap-2 bg-espuma/30 text-espumaOscura border border-espuma/60 px-6 py-3 rounded-xl shadow-xs cursor-pointer hover:bg-espuma/40 transition-all">
+                            <i class="fa-solid fa-handshake"></i>
+                            <span class="text-sm font-eixample-regular uppercase font-bold tracking-wider">Agenda gratis aquí</span>
+                        </div>
+                    </div>
+
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest font-eixample-regular">Contáctenos y agendemos una reunión técnica de diagnóstico</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Persistent presentation controller layout -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-5 bg-white/95 backdrop-blur-md px-6 py-3.5 rounded-full shadow-lg border border-slate-200/80 z-50">
+        <!-- Prev Slide Button -->
+        <button id="prev-btn" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 hover:bg-espuma hover:text-espumaOscura text-slate-700 transition-all duration-300 font-bold active:scale-95" title="Anterior (Flecha Izquierda)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <!-- Slide Index Indicator -->
+        <span class="text-slate-600 font-eixample-regular font-bold text-sm select-none min-w-[70px] text-center" id="slide-indicator">
+            1 / 13
+        </span>
+
+        <!-- Next Slide Button -->
+        <button id="next-btn" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 hover:bg-espuma hover:text-espumaOscura text-slate-700 transition-all duration-300 font-bold active:scale-95" title="Siguiente (Flecha Derecha / Espacio)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <!-- Visual Divider -->
+        <div class="h-6 w-px bg-slate-200"></div>
+
+        <!-- Fullscreen Option -->
+        <button id="fullscreen-btn" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 hover:bg-uva hover:text-white text-slate-700 transition-all duration-300 active:scale-95" title="Pantalla Completa">
+            <i class="fa-solid fa-expand"></i>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide-frame');
+            const totalSlides = slides.length;
+            let currentIdx = 0;
+
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const slideIndicator = document.getElementById('slide-indicator');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            const container = document.getElementById('slidesContainer');
+
+            // Responsive scale calculator to fit 16:9 box correctly in any screen size
+            function adjustAspectScale() {
+                const wWidth = window.innerWidth;
+                const wHeight = window.innerHeight;
+                
+                const targetW = 1280;
+                const targetH = 720;
+                
+                const scaleX = (wWidth - 40) / targetW;
+                const scaleY = (wHeight - 140) / targetH; // safe area height subtraction for control panel
+                
+                // Keep scale within healthy limits
+                const finalScale = Math.min(scaleX, scaleY);
+                container.style.transform = `scale(${finalScale})`;
+            }
+
+            // Bind aspect adjust to viewport changes
+            window.addEventListener('resize', adjustAspectScale);
+            adjustAspectScale();
+
+            // Main rendering update cycle
+            function updateSlides() {
+                slides.forEach((slide, idx) => {
+                    if (idx === currentIdx) {
+                        slide.classList.add('active');
+                        
+                        // Restart chart progression bar animation on Slide 11 entry
+                        if (slide.id === 'slide-11') {
+                            const barFills = slide.querySelectorAll('.progress-bar-fill');
+                            barFills.forEach(bar => {
+                                const targetWidth = bar.style.width;
+                                bar.style.width = '0%';
+                                setTimeout(() => {
+                                    bar.style.width = targetWidth;
+                                }, 150);
+                            });
+                        }
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+
+                // Update text indicator
+                slideIndicator.textContent = `${currentIdx + 1} / ${totalSlides}`;
+            }
+
+            // Navigation trigger callbacks
+            function nextSlide() {
+                if (currentIdx < totalSlides - 1) {
+                    currentIdx++;
+                    updateSlides();
+                }
+            }
+
+            function prevSlide() {
+                if (currentIdx > 0) {
+                    currentIdx--;
+                    updateSlides();
+                }
+            }
+
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+
+            // Bind physical keyboard signals
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    prevSlide();
+                }
+            });
+
+            // Handle Fullscreen transitions
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().then(() => {
+                        setTimeout(adjustAspectScale, 150);
+                    }).catch(err => {
+                        console.error(`Fullscreen request failed: ${err.message}`);
+                    });
+                } else {
+                    document.exitFullscreen().then(() => {
+                        setTimeout(adjustAspectScale, 150);
+                    });
+                }
+            });
+
+            // Init slide flow
+            updateSlides();
+        });
+    </script>
+</body>
+</html>
